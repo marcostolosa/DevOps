@@ -34,4 +34,26 @@ end
 ### 6- Testar comandos em modo verbose diretamente no grupo especificado:
 `ansible -vvvv wordpress -u vagrant --private-key .vagrant/machines/wordpress/virtualbox/private_key -i hosts -m shell -a 'echo Hello Ansible!'`
 
-### 7- 
+-------------------------------------------
+## Executando um playbook no Ansible
+
+### 1- Criar `provisioning.yml`
+```yml
+---
+- hosts: all
+  tasks:
+    - name: 'Instala o PHP 5'
+      apt:
+        name: php5
+        state: latest
+      become: yes
+    - name: 'Instala o Apache2'
+      apt:
+        name: apache2
+        state: latest
+      become: yes 
+``` 
+
+### 2- Rodar o playbook na VM
+`ansible-playbook provisioning.yml -u vagrant -i hosts --private-key .vagrant/machines/wordpress/virtualbox/private_key`
+
